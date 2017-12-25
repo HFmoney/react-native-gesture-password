@@ -66,9 +66,11 @@ export default class GesturePassword extends Component {
     }
 
     _onLayout = () => {
-        UIManager.measureInWindow(findNodeHandle(this.refs.block), (left, top, width, height) => {
-            this.top = top
-        })
+        setTimeout(() => {
+            UIManager.measureInWindow(findNodeHandle(this.refs.block), (left, top, width, height) => {
+                this.top = top
+            })
+        }, 500)
     }
 
     render() {
