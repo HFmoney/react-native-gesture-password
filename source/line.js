@@ -23,6 +23,7 @@ export default class Line extends Component {
     render() {
         console.log(this.state)
         let { start, end, color } = this.state;
+        const {style} = this.props
 
         if ( isEquals(start, end) ) return null;
 
@@ -35,7 +36,8 @@ export default class Line extends Component {
         return (
             <View ref='line' style={[
                 styles.line, {backgroundColor: color, left: start.x, top: start.y, width: length},
-                {transform: [{translateX: moveX}, {translateY: moveY}, {rotateZ: angle}]}
+                {transform: [{translateX: moveX}, {translateY: moveY}, {rotateZ: angle}]},
+                style,
             ]} />
         )
     }
