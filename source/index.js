@@ -8,6 +8,8 @@ import {
     Text,
     UIManager,
     findNodeHandle,
+    Platform,
+    StatusBar,
 } from 'react-native'
 import Line from './line'
 import Circle from './circle'
@@ -68,7 +70,12 @@ export default class GesturePassword extends Component {
     _onLayout = () => {
         setTimeout(() => {
             UIManager.measureInWindow(findNodeHandle(this.refs.block), (left, top, width, height) => {
-                this.top = top
+                if(Platform.OS === 'android') {
+                    this.top = top + StatusBar.currentHeight
+                } else {
+                    this.top = top
+                }
+
             })
         }, 500)
     }
@@ -79,7 +86,7 @@ export default class GesturePassword extends Component {
         return (
                 <View style={this.props.style} {...this._panResponder.panHandlers} onLayout={this._onLayout} ref="block">
                     {this.renderLines()}
-                    <Line ref='line' color={color} />
+                    <Line ref='line' color={color} style={this.props.lineStyle}/>
                     {this.renderCircles()}
                 </View>
         )
@@ -105,13 +112,13 @@ export default class GesturePassword extends Component {
 
     renderLines() {
         let array = [], color;
-        let { status, wrongColor, rightColor } = this.props;
+        let { status, wrongColor, rightColor, lineStyle } = this.props;
 
         this.state.lines.forEach(function(l, i) {
             color = status === 'wrong' ? wrongColor : rightColor;
 
             array.push(
-                <Line key={'l_' + i} color={color} start={l.start} end={l.end} />
+                <Line key={'l_' + i} color={color} start={l.start} end={l.end} style={lineStyle}/>
             )
         });
 
