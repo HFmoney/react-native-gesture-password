@@ -67,8 +67,13 @@ export default class GesturePassword extends Component {
         })
     }
 
+    componentWillUnmount() {
+        this.timeOut && clearTimeout(this.timeOut)
+        this.timeOut = null
+    }
+
     _onLayout = () => {
-        setTimeout(() => {
+        this.timeOut = setTimeout(() => {
             UIManager.measureInWindow(findNodeHandle(this.refs.block), (left, top, width, height) => {
                 if(Platform.OS === 'android') {
                     this.top = top + StatusBar.currentHeight
